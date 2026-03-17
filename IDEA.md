@@ -6,50 +6,99 @@
 
 ## 🎯 Core Concept
 
-**Agentic Gateway** acts as a protective layer between external agents and internal enterprise platform agents, services, and tools. Similar to traditional API gateways (Kong, APIGEE, AWS API Gateway), but specifically designed for the **agentic era** where autonomous AI agents communicate with each other and enterprise resources.
+**Agentic Gateway** is itself an **intelligent AI agent** that acts as a protective intermediary between external agents and internal enterprise resources. Unlike traditional API gateways that passively route requests, the Agentic Gateway:
+
+- **IS an agent** with LLM integration and reasoning capabilities
+- **Speaks A2A protocol** (Agent-to-Agent) natively
+- **Understands natural language** requests from external agents
+- **Makes intelligent decisions** about authorization, routing, and policy enforcement
+- **Negotiates and transforms** requests/responses between agents
+
+This is fundamentally different from traditional API gateways (Kong, APIGEE, AWS API Gateway) which are passive proxies. The Agentic Gateway actively participates in agent conversations, making it the **first truly intelligent gateway for the agentic era**.
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏗️ Architecture Overview - Agent-Native Design
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    External Agents                          │
-│  (OpenClaw agents, Claude, GPT, Gemini, custom agents)     │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │                              │
-        │    AGENTIC GATEWAY           │
-        │    (Cluster / Scale-out)     │
-        │                              │
-        │  ┌────────────────────────┐  │
-        │  │  Gateway Agent(s)      │  │
-        │  │  - Identity & Auth     │  │
-        │  │  - Rate Limiting       │  │
-        │  │  - Auditing & Logging  │  │
-        │  │  - Prompt Security     │  │
-        │  │  - Context Filtering   │  │
-        │  └────────────────────────┘  │
-        │                              │
-        │  ┌────────────────────────┐  │
-        │  │  Plugin System         │  │
-        │  │  - Extensions          │  │
-        │  │  - Custom Policies     │  │
-        │  └────────────────────────┘  │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│             Enterprise Platform Resources                    │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │   Internal   │  │     REST     │  │  MCP Tools   │      │
-│  │    Agents    │  │     APIs     │  │              │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-└──────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                       External Agents                               │
+│   (OpenClaw agents, Claude, GPT, Gemini, custom AI agents)         │
+│                                                                     │
+│   "I need access to customer records for account ID 12345"         │
+│   "Can I update the phone number?"                                 │
+│   "Show me today's orders"                                         │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                           │ A2A Protocol (Natural Language + Structured)
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    AGENTIC GATEWAY AGENT                            │
+│                   (Intelligent AI Agent with LLM)                   │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │                 🧠 LLM REASONING ENGINE                        │ │
+│  │  ┌──────────────────────────────────────────────────────────┐ │ │
+│  │  │  Language Model (Claude, GPT-4, Gemini, Llama, etc.)     │ │ │
+│  │  │  - Parse natural language requests                       │ │ │
+│  │  │  - Reason about policies and context                     │ │ │
+│  │  │  - Make intelligent authorization decisions              │ │ │
+│  │  │  - Generate natural language responses                   │ │ │
+│  │  │  - Learn from interactions                               │ │ │
+│  │  └──────────────────────────────────────────────────────────┘ │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+│                           ↓                                         │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │              AGENT CAPABILITIES & TOOLS                       │ │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐ │ │
+│  │  │ Identity & Auth │  │ Policy Engine   │  │ Rate Limiter │ │ │
+│  │  │ (DID Verify)    │  │ (RBAC/ABAC)     │  │              │ │ │
+│  │  └─────────────────┘  └─────────────────┘  └──────────────┘ │ │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐ │ │
+│  │  │ Audit Logger    │  │ Prompt Security │  │ Context Mgmt │ │ │
+│  │  │ (Blockchain)    │  │ (Injection Det.)│  │              │ │ │
+│  │  └─────────────────┘  └─────────────────┘  └──────────────┘ │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+│                           ↓                                         │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │              CONVERSATION MEMORY                              │ │
+│  │  - Multi-turn dialogue history                                │ │
+│  │  - Agent session state                                        │ │
+│  │  - Authentication context                                     │ │
+│  │  - Long-term reputation data                                 │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+│                           ↓                                         │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │              INTELLIGENT ROUTING                              │ │
+│  │  - Request transformation                                     │ │
+│  │  - Protocol translation                                       │ │
+│  │  - Natural language → API calls                               │ │
+│  │  - Response formatting                                        │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │
+                           │ Traditional protocols (REST, gRPC, MCP, etc.)
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│              Enterprise Backend Resources                           │
+│                                                                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐             │
+│  │  Internal    │  │   REST APIs  │  │  MCP Tools   │             │
+│  │  Agents      │  │              │  │              │             │
+│  └──────────────┘  └──────────────┘  └──────────────┘             │
+│                                                                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐             │
+│  │  Databases   │  │  Legacy Sys  │  │  Microservcs │             │
+│  │              │  │              │  │              │             │
+│  └──────────────┘  └──────────────┘  └──────────────┘             │
+└─────────────────────────────────────────────────────────────────────┘
 ```
+
+**Key Difference from Traditional Gateways:**
+- **Traditional:** Passive proxy (rule-based routing)
+- **Agentic:** Active AI agent (reasoning, negotiation, learning)
 
 ---
 
